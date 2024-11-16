@@ -10,6 +10,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 
+import matplotlib.pyplot as plt
+
+
 #from sklearn.metrics import plot_confusion_matrix, plot_roc_curve, plot_precision_recall
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay, PrecisionRecallDisplay
 #from sklearn.metrics import confusion_matrix, roc_curve #, precision_recall
@@ -72,22 +75,54 @@ def main():
     
     # Analyse de la performance des modeles
 
+    # def plot_perf(graphes):
+    #     if "Confusion matrix" in graphes:
+    #         st.subheader("Matrice de confusion")
+    #         ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, labels= class_names)
+
+    #         st.pyplot()
+
+    #     if "ROC curve" in graphes:
+    #         st.subheader("Courbe ROC")
+    #         RocCurveDisplay.from_estimator(model, X_test, y_test)
+    #         st.pyplot()
+
+    #     if "Precision-Recall curve" in graphes:
+    #         st.subheader("Precision-Recall ")
+    #         PrecisionRecallDisplay.from_estimator(model, X_test, y_test)
+    #         st.pyplot()
+
+
+
+
+
     def plot_perf(graphes):
+        
+        class_names = sorted(set(y_test))
+
         if "Confusion matrix" in graphes:
             st.subheader("Matrice de confusion")
-            ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, labels= class_names)
-
-            st.pyplot()
+            fig, ax = plt.subplots()  # Create a figure
+            ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, labels=class_names, ax=ax)
+            st.pyplot(fig)  # Pass the figure to st.pyplot()
 
         if "ROC curve" in graphes:
             st.subheader("Courbe ROC")
-            RocCurveDisplay.from_estimator(model, X_test, y_test)
-            st.pyplot()
+            fig, ax = plt.subplots()
+            RocCurveDisplay.from_estimator(model, X_test, y_test, ax=ax)
+            st.pyplot(fig)
 
         if "Precision-Recall curve" in graphes:
-            st.subheader("Precision-Recall ")
-            PrecisionRecallDisplay.from_estimator(model, X_test, y_test)
-            st.pyplot()
+            st.subheader("Precision-Recall")
+            fig, ax = plt.subplots()
+            PrecisionRecallDisplay.from_estimator(model, X_test, y_test, ax=ax)
+            st.pyplot(fig)
+
+
+
+
+
+
 
 
     # Random Forest , il faut ecrire les param comme dans sklearn car on va les reutiliser apres
